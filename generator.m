@@ -4,7 +4,7 @@ generated_array = []; % The array we want to return containing the different sig
 
 freq = [697, 770, 852, 941, 1209, 1336, 1447];
 
-% Table
+% Table funny
 % Fs/Hz | 1209 | 1336 | 1477
 %  697  |  1   |   2  |  3
 %  770  |  4   |   5  |  6
