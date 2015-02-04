@@ -1,0 +1,210 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>main</title><meta name="generator" content="MATLAB 8.3"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2015-02-04"><meta name="DC.source" content="main.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">Main function for encoding phonenumber into sound</a></li><li><a href="#2">Function for combining two frequencies</a></li></ul></div><h2>Main function for encoding phonenumber into sound<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> sound_sequence = generator( )
+
+<span class="comment">% The array we want to return containing the different signals</span>
+sound_sequence = [];
+ <span class="comment">% Given sample rate</span>
+Fs = 8000;
+<span class="comment">% Zero Vector</span>
+z = 0:1/Fs:.05;
+<span class="comment">% Pause between sound_sequences</span>
+zeroFrequency = 0*z;
+
+<span class="comment">% Table</span>
+<span class="comment">% Fs/Hz | 1209 | 1336 | 1477</span>
+<span class="comment">%  697  |  1   |   2  |  3</span>
+<span class="comment">%  770  |  4   |   5  |  6</span>
+<span class="comment">%  852  |  7   |   8  |  9</span>
+<span class="comment">%  941  |  *   |   0  |  #</span>
+<span class="comment">% The seven frequences that represent the numbers dialed</span>
+freq = [697, 770, 852, 941, 1209, 1336, 1447];
+
+input_number = input(<span class="string">'Enter phonenumber: '</span>, <span class="string">'s'</span>);
+
+<span class="keyword">if</span> input_number;
+    <span class="keyword">for</span> x = 1 : numel(input_number)
+        <span class="keyword">switch</span> input_number(x)
+            <span class="keyword">case</span> <span class="string">'1'</span>
+                sound_sequence = [sound_sequence (frequency(freq(1), freq(5)))];
+            <span class="keyword">case</span> <span class="string">'2'</span>
+                sound_sequence = [sound_sequence (frequency(freq(1), freq(6)))];
+            <span class="keyword">case</span> <span class="string">'3'</span>
+                sound_sequence = [sound_sequence (frequency(freq(1), freq(7)))];
+            <span class="keyword">case</span> <span class="string">'4'</span>
+                sound_sequence = [sound_sequence (frequency(freq(2), freq(5)))];
+            <span class="keyword">case</span> <span class="string">'5'</span>
+                sound_sequence = [sound_sequence (frequency(freq(2), freq(6)))];
+            <span class="keyword">case</span> <span class="string">'6'</span>
+                sound_sequence = [sound_sequence (frequency(freq(2), freq(7)))];
+            <span class="keyword">case</span> <span class="string">'7'</span>
+                sound_sequence = [sound_sequence (frequency(freq(3), freq(5)))];
+            <span class="keyword">case</span> <span class="string">'8'</span>
+                sound_sequence = [sound_sequence (frequency(freq(3), freq(6)))];
+            <span class="keyword">case</span> <span class="string">'9'</span>
+                sound_sequence = [sound_sequence (frequency(freq(3), freq(7)))];
+            <span class="keyword">case</span> <span class="string">'*'</span>
+                sound_sequence = [sound_sequence (frequency(freq(4), freq(5)))];
+            <span class="keyword">case</span> <span class="string">'0'</span>
+                sound_sequence = [sound_sequence (frequency(freq(4), freq(6)))];
+            <span class="keyword">case</span> <span class="string">'#'</span>
+                sound_sequence = [sound_sequence (frequency(freq(4), freq(7)))];
+            <span class="keyword">otherwise</span>
+                disp(<span class="string">'Illegal input'</span>)
+        <span class="keyword">end</span> <span class="comment">% End switch</span>
+        sound_sequence = [sound_sequence (zeroFrequency)];
+    <span class="keyword">end</span> <span class="comment">% End for</span>
+    sound(sound_sequence)
+<span class="keyword">end</span> <span class="comment">% End if</span>
+<span class="keyword">end</span> <span class="comment">% End function</span>
+</pre><pre class="codeoutput error">Error using input
+Cannot call INPUT from EVALC.
+
+Error in main (line 22)
+input_number = input('Enter phonenumber: ', 's');
+</pre><h2>Function for combining two frequencies<a name="2"></a></h2><pre class="codeinput"><span class="keyword">function</span> frequency = frequency(freqOne, freqTwo)
+
+    T = 0.2; <span class="comment">% Length of signal/frequency/sound in seconds</span>
+    Fs = 8000; <span class="comment">% Given sample rate</span>
+    t = 0:1/Fs:T; <span class="comment">% Sample vektor from 0 to T with steps of 1/Fs</span>
+    frequency = cos(2*pi*freqOne*t) + cos(2*pi*freqTwo*t);  <span class="comment">% Combine the two frequencies</span>
+<span class="keyword">end</span>
+</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2014a</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Main function for encoding phonenumber into sound
+function sound_sequence = generator( )
+
+% The array we want to return containing the different signals
+sound_sequence = [];
+ % Given sample rate
+Fs = 8000;
+% Zero Vector
+z = 0:1/Fs:.05;
+% Pause between sound_sequences
+zeroFrequency = 0*z; 
+
+% Table
+% Fs/Hz | 1209 | 1336 | 1477
+%  697  |  1   |   2  |  3
+%  770  |  4   |   5  |  6
+%  852  |  7   |   8  |  9
+%  941  |  *   |   0  |  #
+% The seven frequences that represent the numbers dialed
+freq = [697, 770, 852, 941, 1209, 1336, 1447];
+
+input_number = input('Enter phonenumber: ', 's');
+
+if input_number;
+    for x = 1 : numel(input_number)
+        switch input_number(x)
+            case '1'
+                sound_sequence = [sound_sequence (frequency(freq(1), freq(5)))];               
+            case '2'
+                sound_sequence = [sound_sequence (frequency(freq(1), freq(6)))];
+            case '3'
+                sound_sequence = [sound_sequence (frequency(freq(1), freq(7)))];
+            case '4'
+                sound_sequence = [sound_sequence (frequency(freq(2), freq(5)))];
+            case '5'
+                sound_sequence = [sound_sequence (frequency(freq(2), freq(6)))];
+            case '6'
+                sound_sequence = [sound_sequence (frequency(freq(2), freq(7)))];
+            case '7'
+                sound_sequence = [sound_sequence (frequency(freq(3), freq(5)))];
+            case '8'
+                sound_sequence = [sound_sequence (frequency(freq(3), freq(6)))];
+            case '9'
+                sound_sequence = [sound_sequence (frequency(freq(3), freq(7)))];
+            case '*'
+                sound_sequence = [sound_sequence (frequency(freq(4), freq(5)))];
+            case '0'
+                sound_sequence = [sound_sequence (frequency(freq(4), freq(6)))];
+            case '#'
+                sound_sequence = [sound_sequence (frequency(freq(4), freq(7)))];
+            otherwise
+                disp('Illegal input')
+        end % End switch
+        sound_sequence = [sound_sequence (zeroFrequency)];
+    end % End for
+    sound(sound_sequence)
+end % End if
+end % End function
+
+%% Function for combining two frequencies
+function frequency = frequency(freqOne, freqTwo)
+
+    T = 0.2; % Length of signal/frequency/sound in seconds
+    Fs = 8000; % Given sample rate
+    t = 0:1/Fs:T; % Sample vektor from 0 to T with steps of 1/Fs
+    frequency = cos(2*pi*freqOne*t) + cos(2*pi*freqTwo*t);  % Combine the two frequencies
+end
+
+
+##### SOURCE END #####
+--></body></html>
