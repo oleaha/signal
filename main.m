@@ -17,7 +17,7 @@ zeroFrequency = 0*z;
 %  852  |  7   |   8  |  9
 %  941  |  *   |   0  |  #
 % The seven frequences that represent the numbers dialed
-freq = [697, 770, 852, 941, 1209, 1336, 1447];
+freq = [697, 770, 852, 941, 1209, 1336, 1477];
 
 input_number = input('Enter phonenumber: ', 's');
 
