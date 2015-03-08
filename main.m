@@ -6,7 +6,7 @@ sound_sequence = [];
  % Given sample rate
 Fs = 8000;
 % Zero Vector
-z = 0:1/Fs:.05;
+z = 1:1:0.05*Fs;
 % Pause between sound_sequences
 zeroFrequency = 0*z; 
 
