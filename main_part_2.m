@@ -9,6 +9,8 @@ pause_sample = 0.05*Fs; % Pause length times sample frequency
 %Find out how many numbers input signal contains
 num_tones = round(length(sound_sequence) / (tone_sample + pause_sample)); % Number of digits in sequence
 
+num_tones
+
 tones = [];
 from = 1; % Keep track of where in the sequence we want to access
 for x = 1 : num_tones
@@ -20,6 +22,8 @@ end
 %plot(sound_sequence)
 % figure(2)
 % plot(tones)
+
+
 %% Create bandpass filter
 % Identify numbers
 freq = [697, 770, 852, 941, 1209, 1336, 1477];
