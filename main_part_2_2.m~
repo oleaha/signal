@@ -61,8 +61,9 @@ function main_part_2_2(signal)
         
         for n = 1 : length(freq)
             Y = filter(filters(n, 1:L), 1, frequency); % Compare generated tones from filters with signal
+            % If tone is above treshold, add frequency to "match" list
             if max(Y) > 0.80
-                match = [match n]; % If tone is above treshold, add frequency to "match" list
+                match = [match n];
             end
         end
         

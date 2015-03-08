@@ -58,7 +58,7 @@ for i = 1 : (length(tones)/tone_sample)
     temp = [];
     for n = 1:length(freq)
         y = filter(filters(n, 1:L), 1, filter_number); %% Compare generated tones from "filters" with incoming signal.
-        if(max(y) > 0.98)                              %% If tone is above treshold, add number to telephone number list. 
+        if(max(y) > 0.50)                              %% If tone is above treshold, add number to telephone number list. 
             temp = [temp n]; 
         end
     end
